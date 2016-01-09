@@ -1,11 +1,14 @@
 class ArticlesController < ApplicationController
+	#si no has iniciado sesion, te pide que lo hagas
+	before_action :authenticate_user!, except: [:show, :index]
+	before_action :set_article, except: [:index, :new, :create]
 	#GET /articles
 	def index
 		@articles = Article.all
 	end
 	#GET /articles/:id
 	def show
-		@article = Article.find(params[:id])
+		@article.update_visits_count
 	end
 	#GET /articles/new
 	def new
@@ -13,7 +16,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def edit
-		@article = Article.find(params[:id])
+		
 	end
 	#POST /articles
 	def create
@@ -30,12 +33,11 @@ class ArticlesController < ApplicationController
 	#DELETE /articles
 	def destroy
 		#delete from articles
-		@article = Article.find(params[:id])
+		
 		@article.destroy #destroy elimina el objeto dela base de dastos
 		redirect_to articles_path
 	end
-	def update
-		@article = Article.find(params[:id])		
+	def update		
 		if @article.update(article_params)
 			redirect_to articles_path
 		else
@@ -45,6 +47,16 @@ class ArticlesController < ApplicationController
 	end
 
 	private
+
+	def set_article
+		@article = Article.find(params[:id])
+	end
+
+
+	def validate_user
+		redirect_to new_user_session_path, notice:"Necesitas iniciar sesión"
+		
+	end
 
 	def article_params
 		#para no seobreescribir, no colocar los sensible
