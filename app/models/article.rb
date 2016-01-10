@@ -1,7 +1,8 @@
 class Article < ActiveRecord::Base
 	belongs_to :user
+	has_many :comments
 	validates :title, presence: true, uniqueness: true
-	validates :body, presence: true, length: { minimum: 20 } 
+	validates :body, presence: true, length: { minimum: 20 }
 	before_save :set_visits_count #loinicializa en 0 visitas
 
 	def update_visits_count
@@ -16,4 +17,3 @@ class Article < ActiveRecord::Base
 	end
 
 end
-
