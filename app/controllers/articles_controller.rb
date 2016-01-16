@@ -61,7 +61,7 @@ class ArticlesController < ApplicationController
 
 	def article_params
 		#para no seobreescribir, no colocar los sensible
-		params.require(:article).permit(:title,:body)
+		params.require(:article).permit(:title,:body,:cover)
 
 	end
 end

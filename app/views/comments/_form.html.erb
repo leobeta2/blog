@@ -1,5 +1,7 @@
 <!-- recuros padre con recurso hijo -->
-<%= form_for([@article,@comment]) do |f| %>
+<!-- se hace remote :true, para enviar el formulario por ajax -->
+<%= form_for([@article,@comment], remote: true,
+html: {id: "comments-form", :"data-type" => "json"}) do |f| %>
   <% if @comment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
