@@ -14,6 +14,7 @@ class ArticlesController < ApplicationController
 	#GET /articles/new
 	def new
 		@article = Article.new
+		@catergories = Category.all
 	end
 
 	def edit
@@ -23,6 +24,7 @@ class ArticlesController < ApplicationController
 	def create
 		#insert into
 		@article = current_user.articles.new(article_params)
+		@article.categories = params[:categories]
 		#si las validaciones pasaron y guarda en DB, redirige
 		if @article.save
 			redirect_to @article
@@ -61,7 +63,7 @@ class ArticlesController < ApplicationController
 
 	def article_params
 		#para no seobreescribir, no colocar los sensible
-		params.require(:article).permit(:title,:body,:cover)
+		params.require(:article).permit(:title,:body,:cover,:categories)
 
 	end
 end
